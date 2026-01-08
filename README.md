@@ -25,12 +25,30 @@ Chaque analyse suit un processus en 3 phases:
 
 ## Installation
 
-```bash
-# Cloner le repo
-git clone git@github.com:Meta-tomm/data-analyst-claude.git ~/.claude/plugins/data-analyst
+### One-liner (recommande)
 
-# Ou copier manuellement
-cp -r data-analyst ~/.claude/plugins/
+```bash
+git clone https://github.com/Meta-tomm/data-analyst-claude.git ~/.claude/plugins/data-analyst
+```
+
+C'est tout. Relancez Claude et les commandes `/analyze`, `/init`, etc. seront disponibles.
+
+### Alternative: SSH
+
+```bash
+git clone git@github.com:Meta-tomm/data-analyst-claude.git ~/.claude/plugins/data-analyst
+```
+
+### Mise a jour
+
+```bash
+cd ~/.claude/plugins/data-analyst && git pull
+```
+
+### Desinstallation
+
+```bash
+rm -rf ~/.claude/plugins/data-analyst
 ```
 
 ## Commandes
