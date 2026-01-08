@@ -11,62 +11,58 @@ allowed-tools:
 
 # Exploratory Data Analysis Command
 
-Perform comprehensive exploratory analysis on the provided dataset.
+## REQUIRED WORKFLOW
 
-## Workflow
+**Before executing this command, follow the structured workflow:**
 
-1. **Load Data**
-   - If file path provided, read the file
-   - If no file, ask user to paste data or provide path
-   - Support CSV, Excel, JSON formats
+1. **FIRST**: Use `data-analyst:data-brainstorming` skill
+   - Understand the analysis goals
+   - Explore data context
+   - Confirm approach with user
 
-2. **Generate Analysis Report**
+2. **THEN**: Use `data-analyst:data-planning` skill
+   - Create detailed analysis plan
+   - Define tasks and validation criteria
+   - Get user approval
 
-   Structure the analysis as:
+3. **FINALLY**: Use `data-analyst:data-executing` skill
+   - Execute plan task by task
+   - Validate each step
+   - Deliver results
 
-   ### Dataset Overview
-   - Shape (rows x columns)
-   - Column names and data types
-   - Memory usage
+**DO NOT skip directly to analysis code.**
 
-   ### Missing Values
-   - Count and percentage per column
-   - Pattern analysis (random vs systematic)
+---
 
-   ### Descriptive Statistics
-   - Numeric: mean, median, std, min, max, quartiles
-   - Categorical: unique values, mode, frequency distribution
+## Analysis Scope
 
-   ### Distribution Analysis
-   - Identify skewness in numeric columns
-   - Detect potential outliers (IQR method)
+Once workflow is complete, the analysis should cover:
 
-   ### Correlation Analysis
-   - Compute correlation matrix for numeric columns
-   - Highlight strong correlations (|r| > 0.7)
+### Dataset Overview
+- Shape (rows x columns)
+- Column names and data types
+- Memory usage
 
-   ### Key Findings
-   - 3-5 bullet points summarizing notable patterns
-   - Potential data quality issues
-   - Suggested next steps
+### Missing Values
+- Count and percentage per column
+- Pattern analysis (random vs systematic)
 
-3. **Generate Python Script**
+### Descriptive Statistics
+- Numeric: mean, median, std, min, max, quartiles
+- Categorical: unique values, mode, frequency distribution
 
-   Provide reproducible code that performs all analyses:
+### Distribution Analysis
+- Identify skewness in numeric columns
+- Detect potential outliers (IQR method)
 
-   ```python
-   import pandas as pd
-   import numpy as np
+### Correlation Analysis
+- Compute correlation matrix for numeric columns
+- Highlight strong correlations (|r| > 0.7)
 
-   # Load data
-   df = pd.read_csv('file.csv')
-
-   # Analysis code...
-   ```
-
-4. **Ask to Save**
-   - Offer to save report to ./outputs/analysis_report.md
-   - Offer to save script to ./scripts/eda_[filename].py
+### Key Findings
+- 3-5 bullet points summarizing notable patterns
+- Potential data quality issues
+- Suggested next steps
 
 ## Output Format
 
