@@ -1,9 +1,13 @@
 {
   "name": "data-analyst",
-  "version": "1.0.0",
   "description": "Expert Data Analyst assistant for Python, SQL, and Power BI workflows",
+  "version": "1.0.0",
   "author": {
-    "name": "chapuis"
+    "name": "Meta-tomm",
+    "url": "https://github.com/Meta-tomm"
   },
-  "keywords": ["data-analysis", "python", "pandas", "sql", "powerbi", "visualization", "statistics"]
+  "homepage": "https://github.com/Meta-tomm/data-analyst-claude",
+  "repository": "https://github.com/Meta-tomm/data-analyst-claude",
+  "license": "MIT",
+  "keywords": ["data-analysis", "python", "pandas", "sql", "powerbi", "dax", "excel", "visualization", "statistics"]
 }
