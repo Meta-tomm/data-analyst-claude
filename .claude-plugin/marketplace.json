@@ -11,7 +11,7 @@
       "name": "data-analyst",
       "description": "Expert Data Analyst assistant with structured workflow (brainstorm → plan → execute). Supports Python, SQL, Power BI DAX, Excel formulas.",
       "version": "1.0.0",
-      "source": ".",
+      "source": "./",
       "category": "productivity",
       "homepage": "https://github.com/Meta-tomm/data-analyst-claude",
       "tags": ["data-analysis", "python", "pandas", "sql", "powerbi", "dax", "excel", "visualization", "statistics"]
