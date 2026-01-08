@@ -1,0 +1,20 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "data-analyst-marketplace",
+  "description": "Data Analyst plugin for Claude Code - Python, SQL, Power BI, Excel workflows",
+  "owner": {
+    "name": "Meta-tomm",
+    "url": "https://github.com/Meta-tomm"
+  },
+  "plugins": [
+    {
+      "name": "data-analyst",
+      "description": "Expert Data Analyst assistant with structured workflow (brainstorm → plan → execute). Supports Python, SQL, Power BI DAX, Excel formulas.",
+      "version": "1.0.0",
+      "source": ".",
+      "category": "productivity",
+      "homepage": "https://github.com/Meta-tomm/data-analyst-claude",
+      "tags": ["data-analysis", "python", "pandas", "sql", "powerbi", "dax", "excel", "visualization", "statistics"]
+    }
+  ]
+}

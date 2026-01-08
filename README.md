@@ -25,30 +25,38 @@ Chaque analyse suit un processus en 3 phases:
 
 ## Installation
 
-### One-liner (recommande)
+### Via Marketplace (recommande)
+
+Dans Claude Code, executez:
+
+```
+/plugin marketplace add Meta-tomm/data-analyst-claude
+/plugin install data-analyst
+```
+
+C'est tout. Les commandes `/analyze`, `/init`, etc. sont disponibles.
+
+### Via Git (alternative)
 
 ```bash
 git clone https://github.com/Meta-tomm/data-analyst-claude.git ~/.claude/plugins/data-analyst
 ```
 
-C'est tout. Relancez Claude et les commandes `/analyze`, `/init`, etc. seront disponibles.
-
-### Alternative: SSH
-
-```bash
-git clone git@github.com:Meta-tomm/data-analyst-claude.git ~/.claude/plugins/data-analyst
-```
-
 ### Mise a jour
 
+```
+/plugin update data-analyst
+```
+
+Ou manuellement:
 ```bash
 cd ~/.claude/plugins/data-analyst && git pull
 ```
 
 ### Desinstallation
 
-```bash
-rm -rf ~/.claude/plugins/data-analyst
+```
+/plugin uninstall data-analyst
 ```
 
 ## Commandes
