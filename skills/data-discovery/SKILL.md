@@ -244,6 +244,20 @@ After discovery, use:
 - `/lineage` to trace data flows
 - `/onboard` for full onboarding workflow
 
+## Integration
+
+**Called by:**
+- `/data-analyst:discover` command
+- **data-onboarding** - Phase 2: Discovery
+
+**Chains to:**
+- **data-documentation** - Document findings after discovery
+- **data-lineage** - Trace flows for complex tables
+
+**Pairs with:**
+- **data-config** - Uses SQL dialect from config
+- **data-describe** - Safe data sharing during discovery
+
 ## Language
 
 Adapt to user's language (French or English).

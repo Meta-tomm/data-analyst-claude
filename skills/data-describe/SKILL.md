@@ -225,6 +225,16 @@ Reuse when asking Claude questions about that table.
 - Your company may have specific policies - follow them
 - Claude can help effectively with structure alone
 
+## Integration
+
+**Called by:**
+- `/data-analyst:describe` command
+
+**Pairs with:**
+- **data-brainstorming** - Safely share data context
+- **data-planning** - Describe data for plan creation
+- **data-discovery** - Safe exploration documentation
+
 ## Language
 
 Adapt to user's language (French or English).

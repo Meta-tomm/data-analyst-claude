@@ -226,12 +226,24 @@ docs/
 - Become the expert in 1-2 areas
 - Help onboard the next person
 
-## Related Skills
+## Integration
 
-- `/discover` - Systematic data exploration
-- `/document` - Creating documentation
-- `/lineage` - Understanding data flows
-- `/analyze` - Once ready to do analysis
+**Called by:**
+- `/data-analyst:onboard` command
+
+**Uses (REQUIRED SUB-SKILLS):**
+- **data-config** - First, set up environment config
+- **data-discovery** - Phase 2: systematic data exploration
+- **data-documentation** - Throughout: create documentation
+- **data-lineage** - Phase 3: understand data flows
+
+**Chains to:**
+- **data-brainstorm** - Once onboarded, ready to do analysis work
+
+**Pairs with:**
+- **data-resume** - Continue onboarding between sessions
+- **data-import** - Import existing company docs
+- **data-export** - Export cheatsheets for offline reference
 
 ## Remember
 

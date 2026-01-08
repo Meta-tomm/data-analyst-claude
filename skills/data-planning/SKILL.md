@@ -216,6 +216,19 @@ After saving the plan, offer execution:
 - **REQUIRED SUB-SKILL:** Use data-analyst:data-executing
 - Follow that skill exactly to implement task-by-task
 
+## Integration
+
+**Called by:**
+- `/data-analyst:write-plan` command
+- **data-brainstorming** - After design validated
+
+**Chains to:**
+- **data-executing** - After plan saved, execute task-by-task
+
+**Pairs with:**
+- **data-config** - Uses SQL dialect and naming conventions from config
+- **data-describe** - If data context needed for planning
+
 ## Language
 
 Adapt to user's language (French or English).

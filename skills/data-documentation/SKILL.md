@@ -256,6 +256,18 @@ docs/
 - Note what surprised you
 - Update when things change
 
+## Integration
+
+**Called by:**
+- `/data-analyst:document` command
+- **data-onboarding** - Throughout all phases
+- **data-discovery** - After exploring systems
+
+**Pairs with:**
+- **data-import** - Structure imported docs
+- **data-export** - Export documentation for sharing
+- **data-resume** - Documentation enables session continuity
+
 ## Language
 
 Adapt to user's language (French or English).

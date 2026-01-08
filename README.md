@@ -1,140 +1,205 @@
 # Data Analyst Plugin
 
-Assistant expert Data Analyst avec workflow structure: **brainstorm → plan → execute**.
+Assistant expert Data Analyst avec workflow structure pour Python, SQL, Power BI, Excel.
 
-## Installation rapide
+## Installation
 
 ```
 /plugin marketplace add Meta-tomm/data-analyst-claude
-/plugin install data-analyst
 ```
 
 ---
 
-## Workflow
+## Toutes les Commandes
 
-Chaque analyse suit un processus en 3 phases:
+### Workflow Analyse (brainstorm → plan → execute)
+
+| Commande | Quand l'utiliser |
+|----------|------------------|
+| `/data-analyst:brainstorm` | **Avant toute analyse.** Comprendre le besoin, explorer les donnees, choisir l'approche. |
+| `/data-analyst:write-plan` | **Apres brainstorm.** Creer le plan detaille avec taches bite-sized. |
+| `/data-analyst:execute-plan` | **Apres plan valide.** Executer tache par tache avec checkpoints. |
+
+### Onboarding (nouveau dans une entreprise)
+
+| Commande | Quand l'utiliser |
+|----------|------------------|
+| `/data-analyst:onboard` | **Premier jour.** Workflow structure 2-4 semaines pour prendre ses marques. |
+| `/data-analyst:discover` | **Explorer un nouveau systeme.** Mapper schemas, tables, relations. |
+| `/data-analyst:document` | **Documenter ses decouvertes.** Data dictionaries, guides domaine, glossaire. |
+| `/data-analyst:lineage` | **Comprendre un flux.** Tracer d'ou vient une donnee, ou elle va. |
+
+### Gestion de Session
+
+| Commande | Quand l'utiliser |
+|----------|------------------|
+| `/data-analyst:config` | **Premiere utilisation.** Configurer environnement (SQL dialect, systemes, contacts). |
+| `/data-analyst:resume` | **Debut de session.** Restaurer le contexte de la session precedente. |
+| `/data-analyst:import` | **Doc existante.** Importer Confluence/Notion/Slack, Claude structure. |
+| `/data-analyst:export` | **Travail offline.** Generer cheatsheets SQL, DAX, domaines. |
+| `/data-analyst:describe` | **Donnees sensibles.** Decrire data sans exposer les vraies valeurs. |
+
+### Commandes Directes
+
+| Commande | Quand l'utiliser |
+|----------|------------------|
+| `/data-analyst:analyze` | Analyse exploratoire (declenche brainstorm si contexte manque) |
+| `/data-analyst:clean` | Nettoyage de donnees |
+| `/data-analyst:sql` | Generation/optimisation SQL |
+| `/data-analyst:viz` | Visualisations |
+| `/data-analyst:report` | Generation de rapports |
+| `/data-analyst:transform` | Pipelines ETL |
+| `/data-analyst:stats` | Tests statistiques |
+| `/data-analyst:powerbi` | Formules DAX pour Power BI |
+| `/data-analyst:quick` | Reference rapide (sans workflow) |
+| `/data-analyst:init` | Initialiser structure projet |
+
+---
+
+## Workflows Recommandes
+
+### Arrivee dans une nouvelle entreprise
 
 ```
-1. BRAINSTORMING
-   - Comprendre le besoin
-   - Explorer les donnees
-   - Choisir l'approche
+Jour 1:
+/data-analyst:config          ← Configurer SQL dialect, outils
+/data-analyst:onboard         ← Demarrer workflow onboarding
 
-2. PLANNING
-   - Definir les taches
-   - Specifier les livrables
-   - Obtenir approbation
+Jour 2-10:
+/data-analyst:discover        ← Explorer chaque systeme
+/data-analyst:import          ← Importer doc existante (Confluence, etc.)
 
-3. EXECUTING
-   - Executer tache par tache
-   - Valider chaque etape
-   - Generer les livrables
+En continu:
+/data-analyst:document        ← Documenter au fur et a mesure
+/data-analyst:lineage         ← Quand besoin de tracer un flux
+
+Entre sessions:
+/data-analyst:resume          ← Reprendre ou on en etait
+/data-analyst:export sql      ← Avoir une ref offline
 ```
 
-## Installation alternative
+### Projet d'analyse standard
+
+```
+/data-analyst:brainstorm      ← Comprendre le besoin
+      ↓
+/data-analyst:write-plan      ← Creer le plan
+      ↓
+/data-analyst:execute-plan    ← Executer avec checkpoints
+```
+
+### Question rapide (pas de workflow)
+
+```
+/data-analyst:quick "comment faire un SUMIFS avec plusieurs criteres"
+```
+
+---
+
+## Comment les Skills se Chainent
+
+```
+                    ┌─────────────────────────────────────┐
+                    │         ONBOARDING FLOW             │
+                    └─────────────────────────────────────┘
+                                    │
+                    ┌───────────────┼───────────────┐
+                    ↓               ↓               ↓
+               [config]       [discover]      [import]
+                    │               │               │
+                    └───────────────┼───────────────┘
+                                    ↓
+                             [document]
+                                    │
+                    ┌───────────────┼───────────────┐
+                    ↓               ↓               ↓
+              [lineage]       [export]        [resume]
+
+
+                    ┌─────────────────────────────────────┐
+                    │          ANALYSIS FLOW              │
+                    └─────────────────────────────────────┘
+                                    │
+                    ┌───────────────┼───────────────┐
+                    ↓               ↓               ↓
+             [describe]     [brainstorm]     [config]
+                                    │
+                                    ↓
+                            [write-plan]
+                                    │
+                                    ↓
+                           [execute-plan]
+                                    │
+                                    ↓
+                             [export]
+```
+
+---
+
+## Livrables Supportes
+
+### Python
+- Scripts `.py` executables dans `./scripts/`
+
+### Power BI (DAX)
+- Fichiers `.md` avec formules a copier
+- Instructions pour chaque mesure
+- Dans `./outputs/dax-formulas.md`
+
+### Excel
+- Fichiers `.md` avec formules et placement
+- Dans `./outputs/excel-formulas.md`
+
+### SQL
+- Fichiers `.sql` commentes
+- Support PostgreSQL, MySQL, Snowflake, BigQuery, SQLite
+- Dans `./scripts/queries.sql`
+
+### Rapports
+- Fichiers `.md` structures
+- Adaptes a l'audience (tech/business/executive)
+- Dans `./outputs/report.md`
+
+---
+
+## Structure des Fichiers Crees
+
+```
+projet/
+├── data/                        # Donnees brutes
+├── outputs/                     # Resultats, formules
+├── scripts/                     # Python, SQL
+├── exports/                     # Cheatsheets offline
+├── docs/
+│   ├── plans/                   # Plans d'analyse
+│   ├── discovery/               # Schemas decouverts
+│   ├── catalog/                 # Data dictionaries
+│   │   ├── tables/
+│   │   ├── domains/
+│   │   ├── glossary.md
+│   │   └── contacts.md
+│   ├── lineage/                 # Flux documentes
+│   ├── onboarding/              # Progression onboarding
+│   └── data-descriptions/       # Descriptions anonymisees
+└── .claude/
+    ├── data-analyst.local.md    # Config environnement
+    └── session-log.md           # Historique sessions
+```
+
+---
+
+## Installation Alternative
 
 ```bash
 git clone https://github.com/Meta-tomm/data-analyst-claude.git ~/.claude/plugins/data-analyst
 ```
 
-**Mise a jour**: `/plugin update data-analyst` ou `cd ~/.claude/plugins/data-analyst && git pull`
+**Mise a jour**: `cd ~/.claude/plugins/data-analyst && git pull`
 
 **Desinstallation**: `/plugin uninstall data-analyst`
 
-## Commandes
-
-| Commande | Description |
-|----------|-------------|
-| `/init` | **Nouveau** - Initialiser un projet d'analyse |
-| `/analyze` | Analyse exploratoire |
-| `/clean` | Nettoyage de donnees |
-| `/sql` | Generation/optimisation SQL |
-| `/viz` | Visualisations |
-| `/report` | Generation de rapports |
-| `/transform` | Pipelines ETL |
-| `/stats` | Tests statistiques |
-| `/powerbi` | Formules DAX |
-| `/quick` | Reference rapide (sans workflow) |
-| `/help` | Aide |
-| `/examples` | Exemples d'utilisation |
-| `/config` | Configuration |
-
-## Livrables Supportes
-
-Le plugin s'adapte au type de livrable:
-
-### Python
-- Scripts `.py` executables
-- Sauvegarde dans `./scripts/`
-
-### Power BI (DAX)
-- Fichiers `.md` avec formules a copier
-- Instructions detaillees pour chaque mesure
-- Sauvegarde dans `./outputs/dax-formulas.md`
-
-### Excel
-- Fichiers `.md` avec formules a copier
-- References cellules et instructions
-- Sauvegarde dans `./outputs/excel-formulas.md`
-
-### SQL
-- Fichiers `.sql` avec requetes commentees
-- Support MySQL, PostgreSQL, SQLite
-- Sauvegarde dans `./scripts/queries.sql`
-
-### Rapports
-- Fichiers `.md` structures
-- Adaptes a l'audience (tech/business/executive)
-- Sauvegarde dans `./outputs/report.md`
-
-## Structure Projet (apres /init)
-
-```
-mon-analyse/
-├── data/           # Donnees brutes
-├── outputs/        # Resultats (CSV, charts, formules)
-├── scripts/        # Scripts Python/SQL
-└── docs/
-    ├── project-config.md   # Configuration projet
-    └── plans/              # Plans d'analyse
-```
-
-## Exemple d'Utilisation
-
-```bash
-# 1. Initialiser le projet
-/init ./analyse-ventes-q4
-
-# 2. Analyser les donnees (workflow complet)
-/analyze
-
-# 3. Creer des mesures Power BI
-/powerbi "mesures pour dashboard ventes"
-
-# 4. Reference rapide (pas de workflow)
-/quick "comment faire un SUMIFS"
-```
-
-## Skills Internes
-
-| Skill | Description |
-|-------|-------------|
-| `data-brainstorming` | Phase de decouverte |
-| `data-planning` | Creation du plan |
-| `data-executing` | Execution du plan |
-| `data-analyst-core` | Connaissances partagees |
-| `using-data-analyst` | Regles d'utilisation |
+---
 
 ## Bilingue
 
 Le plugin detecte automatiquement la langue (francais/anglais) et s'adapte.
-
-## Differences avec Superpowers
-
-Ce plugin est inspire de superpowers mais adapte au metier de Data Analyst:
-- Focus sur les donnees, pas le code
-- Livrables adaptes (DAX, Excel, pas que Python)
-- Workflow collaboratif avec le data analyst
-- Commande `/init` pour setup projet
-- `/quick` pour reponses immediates sans workflow

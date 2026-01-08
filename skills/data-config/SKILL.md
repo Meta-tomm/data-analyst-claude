@@ -203,6 +203,21 @@ databases:
 - Note business rules when you discover them
 - This is YOUR knowledge base
 
+## Integration
+
+**Called by:**
+- `/data-analyst:config` command
+- **data-onboarding** - First step: setup environment
+
+**Used by (all skills read config):**
+- **data-planning** - SQL dialect, naming conventions
+- **data-executing** - SQL dialect for queries
+- **data-discovery** - Dialect-specific exploration queries
+- **data-export** - Dialect for cheatsheets
+
+**Pairs with:**
+- **data-resume** - Config enables session continuity
+
 ## Language
 
 Adapt to user's language (French or English).

@@ -330,6 +330,19 @@ exports/
 - Adapt to what YOU need most
 - Share useful exports with team
 
+## Integration
+
+**Called by:**
+- `/data-analyst:export` command
+
+**Uses:**
+- **data-config** - SQL dialect, environment name
+- **data-documentation** - Domain and table knowledge
+
+**Pairs with:**
+- **data-onboarding** - Export cheatsheets during onboarding
+- **data-executing** - Export after completing analysis
+
 ## Language
 
 Adapt to user's language (French or English).

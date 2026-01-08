@@ -210,6 +210,18 @@ Validated: [Yes/No/Pending with person]
 - Update timestamps
 - Cross-reference related docs
 
+## Integration
+
+**Called by:**
+- `/data-analyst:import` command
+
+**Chains to:**
+- **data-documentation** - Structure imported content
+
+**Pairs with:**
+- **data-onboarding** - Import existing company docs
+- **data-config** - Import may update contacts/jargon in config
+
 ## Language
 
 Adapt to user's language (French or English).

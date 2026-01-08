@@ -257,6 +257,17 @@ docs/
 - Ask owners when stuck
 - Some lineage may be undocumented (note this)
 
+## Integration
+
+**Called by:**
+- `/data-analyst:lineage` command
+- **data-onboarding** - Phase 3: Deep dives
+- **data-discovery** - When tracing complex tables
+
+**Pairs with:**
+- **data-documentation** - Document traced flows
+- **data-config** - Uses SQL dialect from config
+
 ## Language
 
 Adapt to user's language (French or English).

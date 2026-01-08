@@ -1,153 +1,147 @@
 ---
 name: data-brainstorming
-description: This skill MUST be used before any data analysis work. It collaborates with the data analyst to understand needs, explore data context, and define the analysis approach. Adapts to target outputs (Python, Power BI, Excel, SQL).
+description: "You MUST use this before any data analysis work - /analyze, /clean, /viz, /sql, /stats, /report, /transform, /powerbi. Explores user intent, data context, and analysis requirements before implementation."
 ---
 
-# Data Brainstorming
+# Brainstorming Data Analysis Into Designs
 
-Phase collaborative pour comprendre les besoins avant toute analyse.
+## Overview
 
-## Principe
+Help turn data analysis ideas into fully formed designs through natural collaborative dialogue.
 
-Le data analyst sait ce qu'il veut obtenir. Claude aide a structurer et optimiser l'approche.
+Start by understanding the current data context, then ask questions one at a time to refine the approach. Once you understand what's needed, present the design in small sections (200-300 words), checking after each section whether it looks right.
 
-## Le Process
+**Announce at start:** "I'm using the data-brainstorming skill to understand your analysis needs."
 
-### Phase 1: Comprendre le Besoin (2-3 questions)
+## The Process
 
+**Understanding the need:**
+- Check for existing project config (`.claude/data-analyst.local.md`)
+- Ask questions one at a time to refine the idea
+- Prefer multiple choice questions when possible
+- Only one question per message
+- Focus on: objective, deliverable type, constraints
+
+**Key questions (one at a time):**
+1. "What business question should this analysis answer?"
+2. "What format do you need?" (Python script / DAX formulas / Excel formulas / SQL queries / Report)
+3. "What data sources are involved?"
+4. "Any specific constraints?" (performance, tools available, audience)
+
+**Exploring approaches:**
+- Propose 2-3 different approaches with trade-offs
+- Lead with your recommendation and explain why
+- Present options conversationally
+
+**Presenting the design:**
+- Once you understand what's needed, present the design
+- Break it into sections of 200-300 words
+- Ask after each section whether it looks right
+- Cover: data flow, transformations, outputs, validation
+- Be ready to go back and clarify
+
+## Approach Templates by Output Type
+
+**Python:**
 ```markdown
-## Brainstorming: [Sujet]
+### Approaches
 
-Quelques questions pour bien cadrer:
+**A) Single script analysis** (Recommended)
+- One executable .py file
+- Outputs to ./outputs/
+- Fast to implement
 
-1. **Objectif**: Quelle question business cette analyse doit-elle repondre?
+**B) Modular pipeline
+- Separate functions/modules
+- More reusable
+- Takes longer
 
-2. **Livrable attendu**:
-   - [ ] Script Python executable
-   - [ ] Formules DAX pour Power BI
-   - [ ] Formules Excel
-   - [ ] Requetes SQL
-   - [ ] Rapport/Insights
-   - [ ] Donnees nettoyees
-
-3. **Contraintes**: Y a-t-il des contraintes specifiques? (perf, format, outils disponibles)
+Which approach?
 ```
 
-### Phase 2: Explorer les Donnees (si fournies)
-
-Quick scan des donnees:
-- Shape et types
-- Colonnes cles identifiees
-- Problemes evidents (nulls, formats)
-- Patterns interessants
-
-**Format compact:**
+**Power BI / DAX:**
 ```markdown
-### Apercu des donnees
+### Approaches
 
-| Metrique | Valeur |
-|----------|--------|
-| Lignes | 10,000 |
-| Colonnes | 15 |
-| Nulls | 3 colonnes concernees |
-| Types | 8 num, 5 cat, 2 dates |
+**A) Individual measures** (Recommended)
+- Each measure in .md file for copy-paste
+- Easy to maintain
+- Clear dependencies documented
 
-**Observations**:
-- Colonne `revenue` a 5% de nulls
-- `date` format mixte (YYYY-MM-DD et DD/MM/YYYY)
-- `customer_id` semble etre la cle primaire
+**B) Calculated table + measures**
+- Pre-compute in DAX table
+- Better performance for large data
+- More complex setup
+
+Which approach?
 ```
 
-### Phase 3: Proposer des Approches
-
-Adapter au livrable cible:
-
-**Si Python:**
+**Excel:**
 ```markdown
-### Approches possibles
+### Approaches
 
-**A) Analyse pandas classique** (Recommande)
-- Script unique, reproductible
-- Export CSV + visualisations PNG
-- Temps: rapide
-
-**B) Pipeline modulaire**
-- Fonctions reutilisables
-- Plus maintenable
-- Temps: plus long
-
-Preference?
-```
-
-**Si Power BI:**
-```markdown
-### Approches possibles
-
-**A) Mesures DAX simples**
-- Formules individuelles a copier
-- Facile a maintenir
-- Format: fichier .md avec formules
-
-**B) Table calculee + Mesures**
-- Pre-calcul dans une table
-- Plus performant pour gros volumes
-- Necessite import de la table
-
-Preference?
-```
-
-**Si Excel:**
-```markdown
-### Approches possibles
-
-**A) Formules dans les cellules**
+**A) Cell formulas** (Recommended)
 - SUMIFS, VLOOKUP, etc.
-- Pas de VBA requis
-- Format: instructions + formules
+- No VBA needed
+- Step-by-step instructions
 
-**B) Tableau croise dynamique**
-- Plus flexible
-- Refresh automatique
-- Format: guide etape par etape
+**B) Pivot tables**
+- More flexible
+- Auto-refresh
+- Setup guide provided
 
-Preference?
+Which approach?
 ```
 
-### Phase 4: Confirmer
-
+**SQL:**
 ```markdown
-## Resume
+### Approaches
 
-**Objectif**: [1 phrase]
-**Donnees**: [source]
-**Livrable**: [format cible]
-**Approche**: [choisie]
+**A) Single query file** (Recommended)
+- All queries in one .sql
+- Well-commented sections
+- Portable
 
-On passe a la planification?
+**B) Multiple query files**
+- Organized by purpose
+- Better for large projects
+- More files to manage
+
+Which approach?
 ```
 
-## Adaptation au Contexte
+## After the Design
 
-### Si /init a ete fait
-- Lire `./docs/project-config.md`
-- Utiliser le contexte deja etabli
-- Poser moins de questions
+**Documentation:**
+- Write the validated design to `docs/plans/YYYY-MM-DD-<topic>-design.md`
+- Include: objective, data sources, approach, deliverable format
 
-### Si pas de /init
-- Poser les questions de contexte
-- Suggerer `/init` pour les projets longs
+**Implementation:**
+- Ask: "Ready to create the implementation plan?"
+- **REQUIRED SUB-SKILL:** Use data-analyst:data-planning to create detailed plan
 
-## Ce que Brainstorming N'est PAS
+## Key Principles
 
-- Pas d'ecriture de code
-- Pas d'execution d'analyse
-- Pas de generation de formules
-- Juste: comprendre, explorer, proposer
+- **One question at a time** - Don't overwhelm
+- **Multiple choice preferred** - Easier to answer
+- **YAGNI ruthlessly** - Only what's needed
+- **Explore alternatives** - Always 2-3 approaches
+- **Incremental validation** - Present in sections
+- **Adapt to output type** - Different formats need different approaches
 
-## Apres Brainstorming
+## Integration
 
-**REQUIS**: Passer au skill `data-analyst:data-planning`
+**Called by:**
+- `/data-analyst:brainstorm` command
+- Any analysis command when context unclear
 
-## Langue
+**Chains to:**
+- **data-planning** - After design validated, create implementation plan
+- **data-config** - If no project config exists, suggest setup
 
-S'adapter a la langue de l'utilisateur.
+**Pairs with:**
+- **data-describe** - If user needs to safely share data context
+
+## Language
+
+Adapt to user's language (French or English).

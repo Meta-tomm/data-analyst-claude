@@ -175,6 +175,20 @@ Restore context from previous sessions. Load your environment config, recent dis
 - Documentation IS your memory
 - Small updates > big catch-ups
 
+## Integration
+
+**Called by:**
+- `/data-analyst:resume` command
+- Start of any session (recommended)
+
+**Loads context from:**
+- **data-config** - Environment settings
+- **data-onboarding** - Progress tracking
+- **data-documentation** - Knowledge base
+
+**Enables continuity for:**
+- All other skills benefit from restored context
+
 ## Language
 
 Adapt to user's language (French or English).

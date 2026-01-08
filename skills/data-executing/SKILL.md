@@ -241,6 +241,16 @@ ORDER BY 1;
 - Stop when blocked, don't guess
 - Adapt output format to deliverable type
 
+## Integration
+
+**Called by:**
+- `/data-analyst:execute-plan` command
+- **data-planning** - After plan saved and user confirms execution
+
+**Pairs with:**
+- **data-config** - Uses SQL dialect from config
+- **data-export** - Can export cheatsheets after completion
+
 ## Language
 
 Adapt to user's language (French or English).
