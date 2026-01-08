@@ -1,0 +1,9 @@
+{
+  "name": "data-analyst",
+  "version": "1.0.0",
+  "description": "Expert Data Analyst assistant for Python, SQL, and Power BI workflows",
+  "author": {
+    "name": "chapuis"
+  },
+  "keywords": ["data-analysis", "python", "pandas", "sql", "powerbi", "visualization", "statistics"]
+}
