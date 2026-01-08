@@ -1,301 +1,246 @@
 ---
 name: data-executing
-description: This skill MUST be used after data-planning to execute the analysis plan. Generates appropriate outputs based on target (Python scripts, DAX/Excel formulas in .md for copy-paste, SQL files, reports).
+description: "Use when you have an approved implementation plan to execute. Implements plan task-by-task with batch execution and review checkpoints. Generates appropriate outputs (Python .py, DAX/Excel .md, SQL .sql, Reports .md)."
 ---
 
-# Data Executing
+# Executing Data Analysis Plans
 
-Executer le plan approuve et generer les livrables.
+## Overview
 
-## Principe
+Load plan, review critically, execute tasks in batches, report for review between batches.
 
-Suivre le plan tache par tache. Le format de sortie depend du livrable cible.
+**Core principle:** Batch execution with checkpoints for user review.
 
-## Execution par Type de Livrable
+**Announce at start:** "I'm using the data-executing skill to implement this plan."
 
-### Execution Python
+## The Process
 
-1. Charger le plan
-2. Pour chaque tache:
-   - Ecrire le code
-   - Executer et valider
-   - Montrer le resultat
-3. Assembler le script final
-4. Sauvegarder dans `./scripts/`
+### Step 1: Load and Review Plan
 
-**Format sortie:**
-```python
-#!/usr/bin/env python3
-"""
-[Nom analyse]
-Generated: YYYY-MM-DD
-"""
+1. Read plan file from `docs/plans/`
+2. Review critically - identify any questions or concerns:
+   - Missing data files?
+   - Unclear transformations?
+   - Ambiguous validation criteria?
+3. If concerns: Raise them before starting
+4. If no concerns: Create TodoWrite with all tasks and proceed
 
-import pandas as pd
-import numpy as np
+### Step 2: Execute Batch
 
-# Tache 1: Chargement
-df = pd.read_csv('./data/fichier.csv')
+**Default: First 3 tasks**
 
-# Tache 2: Nettoyage
-# ...
+For each task:
+1. Mark as `in_progress` in TodoWrite
+2. Follow each step exactly (plan has bite-sized steps)
+3. Run validations as specified
+4. Show intermediate results
+5. Mark as `completed`
 
-if __name__ == '__main__':
-    main()
-```
+**Execution by Output Type:**
 
----
+**Python:**
+- Execute code blocks
+- Run validation commands
+- Show outputs (shape, samples, etc.)
+- Assemble into final script
 
-### Execution Power BI (DAX)
+**DAX/Excel (.md for copy-paste):**
+- Write formulas to markdown file
+- Include clear instructions for each
+- Document dependencies and prerequisites
+- Format for easy copy-paste
 
-1. Charger le plan
-2. Pour chaque mesure:
-   - Ecrire la formule DAX
-   - Expliquer la logique
-   - Donner les instructions de copie
-3. Sauvegarder dans `./outputs/dax-formulas.md`
+**SQL:**
+- Write queries to .sql file
+- Comment each section
+- Adapt to specified dialect
 
-**Format sortie (.md):**
+**Reports:**
+- Generate supporting analysis first
+- Write sections with data
+- Include visualizations if needed
+
+### Step 3: Report
+
+When batch complete:
 ```markdown
-# Formules DAX - [Nom Analyse]
+## Batch Complete
 
-Generated: YYYY-MM-DD
+**Tasks completed:** 1-3
 
----
+**Results:**
+- Task 1: [Summary + validation passed]
+- Task 2: [Summary + validation passed]
+- Task 3: [Summary + validation passed]
 
-## Mesure 1: Total Ventes
+**Intermediate outputs:**
+- `outputs/partial-results.csv` created
+- 1000 rows processed, 0 nulls remaining
 
-### Formule
-```dax
-Total Ventes = SUM(Sales[Amount])
+Ready for feedback.
 ```
 
-### Instructions
-1. Dans Power BI Desktop, aller dans **Modeling > New Measure**
-2. Coller la formule ci-dessus
-3. Renommer la mesure si necessaire
-4. Format: Currency, 2 decimales
+### Step 4: Continue
 
-### Utilisation
-- Cartes: afficher le total
-- Graphiques: axe Y
-- Filtres: peut etre utilise comme filtre
+Based on feedback:
+- Apply changes if needed
+- Execute next batch
+- Repeat until complete
 
----
+### Step 5: Final Checkpoint
 
-## Mesure 2: YoY Growth
-
-### Formule
-```dax
-YoY Growth =
-VAR CurrentYear = [Total Ventes]
-VAR PreviousYear = CALCULATE(
-    [Total Ventes],
-    SAMEPERIODLASTYEAR('Date'[Date])
-)
-RETURN
-DIVIDE(CurrentYear - PreviousYear, PreviousYear, BLANK())
-```
-
-### Instructions
-1. **Prerequis**: Mesure "Total Ventes" doit exister
-2. **Prerequis**: Table Date avec relation active
-3. Coller dans New Measure
-4. Format: Percentage, 1 decimale
-
-### Utilisation
-- Cartes: afficher la croissance
-- Indicateurs conditionnels (vert si >0, rouge si <0)
-
----
-
-[Autres mesures...]
-```
-
----
-
-### Execution Excel
-
-1. Charger le plan
-2. Pour chaque formule:
-   - Ecrire la formule Excel
-   - Donner les references exactes
-   - Expliquer comment appliquer
-3. Sauvegarder dans `./outputs/excel-formulas.md`
-
-**Format sortie (.md):**
-```markdown
-# Formules Excel - [Nom Analyse]
-
-Generated: YYYY-MM-DD
-
----
-
-## Setup Initial
-
-### Structure attendue
-- **Onglet "Data"**: Donnees brutes
-  - Colonne A: Date
-  - Colonne B: Produit
-  - Colonne C: Revenue
-  - Colonne D: Categorie
-
-- **Onglet "Analysis"**: Resultats
-
----
-
-## Formule 1: Total par Categorie
-
-### Formule
-```excel
-=SUMIFS(Data!$C:$C, Data!$D:$D, A2)
-```
-
-### Emplacement
-- Onglet: **Analysis**
-- Cellule: **B2**
-- Tirer vers le bas pour chaque categorie
-
-### Explication
-- `Data!$C:$C`: Colonne des revenues (absolue)
-- `Data!$D:$D`: Colonne des categories (absolue)
-- `A2`: Categorie a filtrer (relative)
-
----
-
-## Formule 2: Moyenne Mobile 7 Jours
-
-### Formule
-```excel
-=IF(ROW()-1<7, "", AVERAGE(INDIRECT("C"&ROW()-6&":C"&ROW())))
-```
-
-### Emplacement
-- Onglet: **Data**
-- Colonne: **E** (a cote des donnees)
-- Tirer de E2 jusqu'a la fin
-
-### Alternative plus simple
-```excel
-=AVERAGE(C2:C8)
-```
-Puis tirer vers le bas (si donnees triees par date)
-
----
-
-[Autres formules...]
-```
-
----
-
-### Execution SQL
-
-1. Charger le plan
-2. Pour chaque query:
-   - Ecrire la requete SQL
-   - Commenter chaque section
-   - Adapter au dialecte
-3. Sauvegarder dans `./scripts/queries.sql`
-
-**Format sortie (.sql):**
-```sql
--- ================================================
--- [Nom Analyse]
--- Generated: YYYY-MM-DD
--- Dialect: PostgreSQL
--- ================================================
-
--- Query 1: Aggregation mensuelle
--- But: Calculer le revenue par mois
-SELECT
-    DATE_TRUNC('month', order_date) AS month,
-    SUM(amount) AS total_revenue,
-    COUNT(*) AS order_count
-FROM orders
-WHERE order_date >= '2024-01-01'
-GROUP BY DATE_TRUNC('month', order_date)
-ORDER BY month;
-
--- ------------------------------------------------
-
--- Query 2: Top 10 clients
--- But: Identifier les meilleurs clients
-WITH customer_totals AS (
-    SELECT
-        c.customer_id,
-        c.name,
-        SUM(o.amount) AS total_spent
-    FROM customers c
-    JOIN orders o ON c.customer_id = o.customer_id
-    GROUP BY c.customer_id, c.name
-)
-SELECT
-    customer_id,
-    name,
-    total_spent,
-    RANK() OVER (ORDER BY total_spent DESC) AS rank
-FROM customer_totals
-ORDER BY rank
-LIMIT 10;
-
--- ================================================
--- End of queries
--- ================================================
-```
-
----
-
-### Execution Rapport
-
-1. Charger le plan
-2. Pour chaque section:
-   - Rediger le contenu
-   - Generer les visualisations si besoin
-   - Adapter au niveau d'audience
-3. Sauvegarder dans `./outputs/report.md`
-
-## Workflow d'Execution
-
-```
-1. Afficher: "Execution du plan..."
-2. Pour chaque tache:
-   a. Marquer in_progress (TodoWrite)
-   b. Executer
-   c. Montrer resultat intermediaire
-   d. Marquer completed
-3. Assembler le livrable final
-4. Afficher: "Execution terminee"
-5. Proposer: "Sauvegarder dans [path]?"
-```
-
-## Gestion des Problemes
-
-Si une tache echoue:
-1. **Stop** - ne pas continuer
-2. **Expliquer** le probleme
-3. **Proposer** des solutions
-4. **Attendre** la decision utilisateur
-
-## Checkpoint Final
+After all tasks complete:
 
 ```markdown
-## Execution Terminee
+## Execution Complete
 
-### Livrables generes
+### Deliverables Generated
 
-| Fichier | Type | Statut |
-|---------|------|--------|
-| ./outputs/dax-formulas.md | DAX | Pret a copier |
-| ./scripts/analysis.py | Python | Executable |
+| File | Type | Status |
+|------|------|--------|
+| `scripts/analysis.py` | Python | Executable |
+| `outputs/dax-formulas.md` | DAX | Ready to copy |
+| `outputs/results.csv` | Data | Generated |
 
-### Resume
-[Ce qui a ete fait]
+### Summary
+[What was accomplished]
 
-### Prochaines etapes suggerees
+### How to Use
+- **Python**: Run `python scripts/analysis.py`
+- **DAX**: Open in Power BI, copy formulas from .md
+- **Excel**: Open .md, copy formulas to cells as documented
+- **SQL**: Execute in your database client
+
+### Suggested Next Steps
 - [Suggestion 1]
 - [Suggestion 2]
 ```
 
-## Langue
+## When to Stop and Ask for Help
 
-S'adapter a la langue de l'utilisateur.
+**STOP executing immediately when:**
+- Hit a blocker mid-batch (missing file, data error, unclear instruction)
+- Plan has critical gaps preventing progress
+- Validation fails and fix is unclear
+- Output doesn't match expected
+
+**Ask for clarification rather than guessing.**
+
+Example:
+```markdown
+## Blocked at Task 3
+
+**Problem:** The plan says to join on `customer_id` but the file only has `cust_id`.
+
+**Options:**
+1. Assume `cust_id` is the same column
+2. Stop and clarify the mapping
+
+Which should I do?
+```
+
+## When to Revisit Earlier Steps
+
+**Return to Review (Step 1) when:**
+- User updates the plan based on feedback
+- Data structure differs from plan assumptions
+- Fundamental approach needs rethinking
+
+**Don't force through blockers** - stop and ask.
+
+## Output Format Templates
+
+### DAX Output (.md)
+
+```markdown
+# DAX Formulas - [Analysis Name]
+
+Generated: YYYY-MM-DD
+
+---
+
+## Measure 1: Total Sales
+
+### Formula
+```dax
+Total Sales = SUM(Sales[Amount])
+```
+
+### How to Create
+1. Power BI Desktop > Modeling > New Measure
+2. Paste formula above
+3. Format: Currency, 2 decimals
+
+### Where to Use
+- Cards: Display total
+- Charts: Y-axis values
+
+---
+```
+
+### Excel Output (.md)
+
+```markdown
+# Excel Formulas - [Analysis Name]
+
+Generated: YYYY-MM-DD
+
+---
+
+## Setup
+
+### Expected Structure
+- **Sheet "Data"**: Raw data
+  - A: Date | B: Product | C: Revenue | D: Category
+- **Sheet "Analysis"**: Results
+
+---
+
+## Formula 1: Sum by Category
+
+### Formula
+```excel
+=SUMIFS(Data!$C:$C, Data!$D:$D, A2)
+```
+
+### Placement
+- Sheet: Analysis
+- Cell: B2
+- Drag down for all categories
+
+---
+```
+
+### SQL Output (.sql)
+
+```sql
+-- ================================================
+-- [Analysis Name]
+-- Generated: YYYY-MM-DD
+-- Dialect: PostgreSQL
+-- ================================================
+
+-- Query 1: Monthly Revenue
+-- Purpose: Aggregate revenue by month
+SELECT
+    DATE_TRUNC('month', order_date) AS month,
+    SUM(amount) AS total_revenue
+FROM orders
+GROUP BY 1
+ORDER BY 1;
+
+-- ================================================
+```
+
+## Remember
+
+- Review plan critically first
+- Follow plan steps exactly
+- Don't skip validations
+- Between batches: just report and wait
+- Stop when blocked, don't guess
+- Adapt output format to deliverable type
+
+## Language
+
+Adapt to user's language (French or English).

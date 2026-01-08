@@ -1,228 +1,221 @@
 ---
 name: data-planning
-description: This skill MUST be used after data-brainstorming to create a detailed analysis plan. Adapts plan structure to target output (Python scripts, DAX formulas, Excel formulas, SQL queries, reports).
+description: "Use when you have completed brainstorming and have a validated design for data analysis. Creates detailed, bite-sized implementation plans adapted to target output (Python, DAX, Excel, SQL, Reports)."
 ---
 
-# Data Planning
+# Writing Data Analysis Plans
 
-Creer un plan d'analyse adapte au livrable cible.
+## Overview
 
-## Principe
+Write comprehensive analysis plans assuming the implementer has zero context. Document everything: which files to touch, exact transformations, validation criteria, how to test. Give the whole plan as bite-sized tasks.
 
-Le plan definit QUOI faire, pas COMMENT le coder. Le format du plan depend du livrable.
+Assume they are skilled but know nothing about the specific data or business domain.
 
-## Plans par Type de Livrable
+**Announce at start:** "I'm using the data-planning skill to create the implementation plan."
 
-### Plan pour Python
+**Context:** Should follow a completed brainstorming session with validated design.
+
+**Save plans to:** `docs/plans/YYYY-MM-DD-<analysis-name>.md`
+
+## Bite-Sized Task Granularity
+
+**Each step is one action (2-5 minutes):**
+- "Load the CSV file" - step
+- "Check the shape and types" - step
+- "Handle nulls in revenue column" - step
+- "Validate: no nulls remain" - step
+- "Create the aggregation" - step
+
+**Never combine multiple actions into one step.**
+
+## Plan Document Header
+
+**Every plan MUST start with this header:**
 
 ```markdown
-# [Nom Analyse] - Plan
+# [Analysis Name] Implementation Plan
 
-**Livrable**: Script Python
-**Fichier sortie**: `./scripts/[nom].py`
+> **For Claude:** REQUIRED SUB-SKILL: Use data-analyst:data-executing to implement this plan task-by-task.
 
----
+**Goal:** [One sentence describing what this analysis produces]
 
-## Taches
+**Target Output:** [Python script (.py) | DAX formulas (.md) | Excel formulas (.md) | SQL queries (.sql) | Report (.md)]
 
-### Tache 1: Chargement des donnees
-**Input**: `./data/fichier.csv`
-**Output**: DataFrame charge
-**Validation**: Shape = (X, Y), pas d'erreur de parsing
-
-### Tache 2: Nettoyage
-**Actions**:
-- Traiter nulls colonne `revenue` (imputation mediane)
-- Convertir `date` en datetime
-**Output**: DataFrame propre
-**Validation**: 0 nulls, types corrects
-
-### Tache 3: Analyse
-**Actions**:
-- Calculer stats descriptives
-- Correlation matrix
-**Output**: Resultats dans DataFrame
-**Validation**: Valeurs plausibles
-
-### Tache 4: Export
-**Output**:
-- `./outputs/results.csv`
-- `./outputs/correlation.png`
+**Data Sources:** [List input files/tables]
 
 ---
-
-**Approuve?** (oui/non)
 ```
 
-### Plan pour Power BI (DAX)
+## Task Structure by Output Type
+
+### Python Script Tasks
 
 ```markdown
-# [Nom Analyse] - Plan DAX
+### Task N: [Component Name]
 
-**Livrable**: Formules DAX (.md a copier)
-**Fichier sortie**: `./outputs/dax-formulas.md`
+**Files:**
+- Input: `data/sales.csv`
+- Output: `outputs/analysis.csv`
+- Script: `scripts/analysis.py`
 
----
+**Step 1: Load data**
 
-## Mesures a creer
-
-### Mesure 1: Total Ventes
-**Objectif**: Somme des ventes
-**Table source**: Sales
-**Colonne**: Amount
-**Format affichage**: Currency
-
-### Mesure 2: YoY Growth
-**Objectif**: Croissance annuelle
-**Depend de**: Mesure 1, Table Date
-**Format affichage**: Percentage
-
-### Mesure 3: Top 10 Flag
-**Objectif**: Identifier top 10 produits
-**Depend de**: Mesure 1
-**Type**: Colonne calculee ou mesure
-
----
-
-## Ordre d'implementation
-1. Mesure 1 (base)
-2. Mesure 2 (depend de 1)
-3. Mesure 3 (depend de 1)
-
----
-
-**Approuve?** (oui/non)
+```python
+df = pd.read_csv('data/sales.csv', parse_dates=['date'])
 ```
 
-### Plan pour Excel
+**Step 2: Validate load**
+
+Run: `print(df.shape, df.dtypes)`
+Expected: `(1000, 5)`, date as datetime64
+
+**Step 3: Handle nulls**
+
+```python
+df['revenue'] = df['revenue'].fillna(df['revenue'].median())
+```
+
+**Step 4: Validate nulls**
+
+Run: `print(df['revenue'].isna().sum())`
+Expected: `0`
+```
+
+### DAX Formula Tasks
 
 ```markdown
-# [Nom Analyse] - Plan Excel
+### Task N: [Measure Name]
 
-**Livrable**: Formules Excel (.md avec instructions)
-**Fichier sortie**: `./outputs/excel-formulas.md`
+**Output:** `outputs/dax-formulas.md`
 
----
+**Step 1: Write base measure**
 
-## Structure du fichier Excel
-
-### Onglet "Data"
-- Donnees brutes importees
-- Colonnes: A=Date, B=Product, C=Revenue, etc.
-
-### Onglet "Analysis"
-- Tableaux de synthese
-- Formules a creer
-
-## Formules a creer
-
-### Formule 1: Total par categorie
-**Cellule**: Analysis!B2
-**Type**: SUMIFS
-**References**: Data!C:C, Data!B:B
-
-### Formule 2: Moyenne mobile 7j
-**Cellule**: Data!E2 (a tirer)
-**Type**: AVERAGE avec plage dynamique
-
-### Formule 3: Variance vs budget
-**Cellule**: Analysis!D2
-**Depend de**: Formule 1
-
----
-
-**Approuve?** (oui/non)
+```dax
+Total Sales = SUM(Sales[Amount])
 ```
 
-### Plan pour SQL
+**Step 2: Document usage**
+
+Write in output file:
+- Where to create: Modeling > New Measure
+- Format: Currency, 2 decimals
+- Use in: Cards, Charts Y-axis
+
+**Step 3: Write dependent measure (if any)**
+
+```dax
+YoY Growth =
+VAR CurrentYear = [Total Sales]
+VAR PreviousYear = CALCULATE([Total Sales], SAMEPERIODLASTYEAR('Date'[Date]))
+RETURN DIVIDE(CurrentYear - PreviousYear, PreviousYear)
+```
+
+**Step 4: Document dependencies**
+
+Prerequisite: Total Sales measure must exist first
+```
+
+### Excel Formula Tasks
 
 ```markdown
-# [Nom Analyse] - Plan SQL
+### Task N: [Formula Name]
 
-**Livrable**: Requetes SQL (.sql)
-**Fichier sortie**: `./scripts/queries.sql`
-**Dialecte**: [PostgreSQL/MySQL/SQLite]
+**Output:** `outputs/excel-formulas.md`
 
----
+**Step 1: Document structure**
 
-## Requetes a creer
+Write expected sheet structure:
+- Sheet "Data": A=Date, B=Product, C=Revenue
+- Sheet "Analysis": Results go here
 
-### Query 1: Aggregation mensuelle
-**Tables**: orders, customers
-**Type**: SELECT avec GROUP BY
-**Output**: Resultats agreges
+**Step 2: Write formula**
 
-### Query 2: Top clients
-**Tables**: orders, customers
-**Type**: Window function (RANK)
-**Output**: Liste classee
-
-### Query 3: Vue materialisee (optionnel)
-**Depend de**: Query 1
-**Type**: CREATE VIEW
-
----
-
-## Ordre d'execution
-1. Query 1 (standalone)
-2. Query 2 (standalone)
-3. Query 3 (depend de 1)
-
----
-
-**Approuve?** (oui/non)
+```excel
+=SUMIFS(Data!$C:$C, Data!$D:$D, A2)
 ```
 
-### Plan pour Rapport/Insights
+**Step 3: Document placement**
+
+- Sheet: Analysis
+- Cell: B2
+- Action: Drag down for all categories
+```
+
+### SQL Query Tasks
 
 ```markdown
-# [Nom Analyse] - Plan Rapport
+### Task N: [Query Name]
 
-**Livrable**: Rapport Markdown
-**Fichier sortie**: `./outputs/report.md`
-**Audience**: [Tech/Business/Executive]
+**Output:** `scripts/queries.sql`
+**Dialect:** PostgreSQL
 
----
+**Step 1: Write query**
 
-## Sections du rapport
-
-### Section 1: Resume executif
-**Contenu**: 3-5 bullet points cles
-**Longueur**: 100 mots max
-
-### Section 2: Methodologie
-**Contenu**: Sources, approche, limites
-**Longueur**: Tech=detaille, Business=resume, Exec=skip
-
-### Section 3: Resultats
-**Contenu**: Findings principaux
-**Visualisations**: 2-3 graphiques
-
-### Section 4: Recommandations
-**Contenu**: Actions suggerees
-**Format**: Liste priorisee
-
----
-
-**Approuve?** (oui/non)
+```sql
+SELECT
+    DATE_TRUNC('month', order_date) AS month,
+    SUM(amount) AS total_revenue
+FROM orders
+GROUP BY 1
+ORDER BY 1;
 ```
 
-## Regles
+**Step 2: Document expected output**
 
-1. **Plan = QUOI, pas COMMENT** - Pas de code dans le plan
-2. **Taches testables** - Chaque tache a une validation
-3. **Dependencies claires** - Ordre logique
-4. **Adapte au livrable** - Format different selon la cible
-5. **Approbation explicite** - "oui" ou "approuve" requis
+Columns: month (date), total_revenue (numeric)
+Rows: One per month in data range
+```
 
-## Sauvegarder le Plan
+### Report Tasks
 
-Optionnel: sauvegarder dans `./docs/plans/YYYY-MM-DD-[nom].md`
+```markdown
+### Task N: [Section Name]
 
-## Apres Planning
+**Output:** `outputs/report.md`
 
-**REQUIS**: Passer au skill `data-analyst:data-executing` une fois approuve.
+**Step 1: Write section header**
 
-## Langue
+```markdown
+## Key Findings
+```
 
-S'adapter a la langue de l'utilisateur.
+**Step 2: Generate supporting data**
+
+Run analysis to get numbers for this section.
+
+**Step 3: Write content**
+
+3-5 bullet points, each with:
+- Finding
+- Supporting number
+- Business implication
+```
+
+## Validation Criteria
+
+Every task MUST have:
+1. **Expected output** - What should exist after
+2. **Validation command** - How to verify
+3. **Expected result** - What success looks like
+
+## Remember
+
+- Exact file paths always
+- Complete code in plan (not "add validation")
+- One action per step
+- Dependencies explicit between tasks
+- Adapt format to target output type
+
+## Execution Handoff
+
+After saving the plan, offer execution:
+
+**"Plan complete and saved to `docs/plans/<filename>.md`. Ready to execute?**
+
+**If yes:**
+- **REQUIRED SUB-SKILL:** Use data-analyst:data-executing
+- Follow that skill exactly to implement task-by-task
+
+## Language
+
+Adapt to user's language (French or English).
