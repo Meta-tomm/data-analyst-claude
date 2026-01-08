@@ -2,6 +2,15 @@
 
 Assistant expert Data Analyst avec workflow structure: **brainstorm → plan → execute**.
 
+## Installation rapide
+
+```
+/plugin marketplace add Meta-tomm/data-analyst-claude
+/plugin install data-analyst
+```
+
+---
+
 ## Workflow
 
 Chaque analyse suit un processus en 3 phases:
@@ -23,41 +32,15 @@ Chaque analyse suit un processus en 3 phases:
    - Generer les livrables
 ```
 
-## Installation
-
-### Via Marketplace (recommande)
-
-Dans Claude Code, executez:
-
-```
-/plugin marketplace add Meta-tomm/data-analyst-claude
-/plugin install data-analyst
-```
-
-C'est tout. Les commandes `/analyze`, `/init`, etc. sont disponibles.
-
-### Via Git (alternative)
+## Installation alternative
 
 ```bash
 git clone https://github.com/Meta-tomm/data-analyst-claude.git ~/.claude/plugins/data-analyst
 ```
 
-### Mise a jour
+**Mise a jour**: `/plugin update data-analyst` ou `cd ~/.claude/plugins/data-analyst && git pull`
 
-```
-/plugin update data-analyst
-```
-
-Ou manuellement:
-```bash
-cd ~/.claude/plugins/data-analyst && git pull
-```
-
-### Desinstallation
-
-```
-/plugin uninstall data-analyst
-```
+**Desinstallation**: `/plugin uninstall data-analyst`
 
 ## Commandes
 
