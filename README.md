@@ -268,6 +268,117 @@ Claude: [utilise db_tables automatiquement]
 
 ---
 
+## MCP Server - Power BI
+
+Le plugin supporte l'integration avec Power BI via le serveur MCP [sulaiman013/powerbi-mcp](https://github.com/sulaiman013/powerbi-mcp).
+
+### Installation
+
+```bash
+# Cloner le repo Power BI MCP
+git clone https://github.com/sulaiman013/powerbi-mcp.git ~/powerbi-mcp
+
+# Installer les dependances
+cd ~/powerbi-mcp
+pip install -r requirements.txt
+```
+
+### Configuration
+
+```bash
+# Chemin vers le serveur MCP
+export POWERBI_MCP_PATH="$HOME/powerbi-mcp"
+
+# Azure AD App Registration (pour Power BI Service)
+export POWERBI_TENANT_ID='your-tenant-id'
+export POWERBI_CLIENT_ID='your-client-id'
+export POWERBI_CLIENT_SECRET='your-client-secret'
+```
+
+**Note**: Pour Power BI Desktop uniquement, les credentials Azure ne sont pas necessaires.
+
+### Outils MCP disponibles (34 outils)
+
+#### Power BI Desktop (local)
+
+| Outil | Description |
+|-------|-------------|
+| `list_open_reports` | Lister les rapports ouverts |
+| `get_report_info` | Info detaillee sur un rapport |
+| `list_tables` | Lister les tables du modele |
+| `get_table_data` | Voir les donnees d'une table |
+| `list_measures` | Lister toutes les mesures DAX |
+| `get_measure_details` | Details d'une mesure specifique |
+| `list_columns` | Colonnes d'une table |
+| `list_relationships` | Relations entre tables |
+| `evaluate_dax` | Executer une requete DAX |
+| `get_model_info` | Info sur le modele de donnees |
+
+#### Power BI Service (cloud)
+
+| Outil | Description |
+|-------|-------------|
+| `list_workspaces` | Lister les workspaces |
+| `get_workspace_details` | Details d'un workspace |
+| `list_datasets` | Datasets d'un workspace |
+| `get_dataset_info` | Info sur un dataset |
+| `list_reports` | Rapports d'un workspace |
+| `get_report_details` | Details d'un rapport |
+| `list_dashboards` | Dashboards d'un workspace |
+| `refresh_dataset` | Declencher un refresh |
+| `get_refresh_history` | Historique des refreshs |
+| `execute_dax_query` | Executer DAX sur le service |
+
+#### Securite & Admin
+
+| Outil | Description |
+|-------|-------------|
+| `list_workspace_users` | Utilisateurs d'un workspace |
+| `get_user_permissions` | Permissions d'un utilisateur |
+| `list_gateway_datasources` | Sources de donnees gateway |
+| `get_capacity_info` | Info sur la capacite |
+
+#### Diagnostics
+
+| Outil | Description |
+|-------|-------------|
+| `analyze_model` | Analyser le modele (taille, complexite) |
+| `check_best_practices` | Verifier les best practices |
+| `get_query_performance` | Performance des requetes |
+| `diagnose_refresh_errors` | Diagnostiquer erreurs de refresh |
+
+### Utilisation
+
+Une fois configure, Claude peut directement:
+- Lister et explorer vos rapports Power BI
+- Executer des requetes DAX
+- Analyser les modeles de donnees
+- Verifier les best practices
+- Gerer les refreshs de datasets
+- Auditer les permissions
+
+```
+User: "Liste les mesures du rapport ouvert"
+Claude: [utilise list_measures automatiquement]
+
+User: "Calcule le total des ventes par region"
+Claude: [utilise evaluate_dax avec la requete appropriee]
+```
+
+### Azure AD App Registration
+
+Pour utiliser les outils Power BI Service:
+
+1. Aller sur [Azure Portal](https://portal.azure.com)
+2. Azure Active Directory > App registrations > New registration
+3. Nom: "Power BI MCP"
+4. Ajouter les permissions API:
+   - Power BI Service: Dataset.Read.All, Report.Read.All, Workspace.Read.All
+5. Creer un client secret
+6. Copier: Tenant ID, Client ID, Client Secret
+
+---
+
 ## Bilingue
 
 Le plugin detecte automatiquement la langue (francais/anglais) et s'adapte.

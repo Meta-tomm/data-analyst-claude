@@ -12,5 +12,16 @@
       "DB_USER": "${DB_USER}",
       "DB_PASSWORD": "${DB_PASSWORD}"
     }
+  },
+  "powerbi": {
+    "command": "python",
+    "args": ["${POWERBI_MCP_PATH}/src/server.py"],
+    "env": {
+      "PYTHONPATH": "${POWERBI_MCP_PATH}/src",
+      "POWERBI_TENANT_ID": "${POWERBI_TENANT_ID}",
+      "POWERBI_CLIENT_ID": "${POWERBI_CLIENT_ID}",
+      "POWERBI_CLIENT_SECRET": "${POWERBI_CLIENT_SECRET}",
+      "LOG_LEVEL": "INFO"
+    }
   }
 }
