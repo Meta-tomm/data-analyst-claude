@@ -1,0 +1,6 @@
+# MCP SDK
+mcp>=1.0.0
+
+# Database drivers
+psycopg2-binary>=2.9.0  # PostgreSQL
+mysql-connector-python>=8.0.0  # MySQL

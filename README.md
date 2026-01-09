@@ -200,6 +200,74 @@ git clone https://github.com/Meta-tomm/data-analyst-claude.git ~/.claude/plugins
 
 ---
 
+## MCP Server - Connexion Base de Donnees
+
+Le plugin inclut un serveur MCP pour se connecter directement aux bases de donnees.
+
+### Installation des dependances
+
+```bash
+# Dans le dossier du plugin
+pip install -r mcp-server/requirements.txt
+
+# Ou via le script
+bash mcp-server/install.sh
+```
+
+### Configuration
+
+**Option 1: DATABASE_URL (recommande)**
+
+```bash
+# PostgreSQL
+export DATABASE_URL='postgresql://user:password@localhost:5432/mydb'
+
+# MySQL
+export DATABASE_URL='mysql://user:password@localhost:3306/mydb'
+```
+
+**Option 2: Variables separees**
+
+```bash
+export DB_TYPE=postgresql  # ou mysql
+export DB_HOST=localhost
+export DB_PORT=5432
+export DB_NAME=mydb
+export DB_USER=user
+export DB_PASSWORD=password
+```
+
+### Outils MCP disponibles
+
+| Outil | Description |
+|-------|-------------|
+| `db_connect` | Tester la connexion a la base |
+| `db_tables` | Lister toutes les tables |
+| `db_schema` | Schema d'une table (colonnes, types) |
+| `db_query` | Executer une requete SELECT (read-only) |
+| `db_profile` | Profiler une table (stats, nulls, distinct) |
+
+### Utilisation
+
+Une fois configure, Claude peut directement:
+- Explorer vos schemas
+- Executer des requetes SELECT
+- Profiler vos tables
+- Tout ca sans quitter la conversation
+
+```
+User: "Montre moi les tables de ma base"
+Claude: [utilise db_tables automatiquement]
+```
+
+### Securite
+
+- **Read-only**: Seules les requetes SELECT sont autorisees
+- **Limite 100 rows**: Les resultats sont limites pour eviter les surcharges
+- **Pas de credentials en dur**: Tout passe par variables d'environnement
+
+---
+
 ## Bilingue
 
 Le plugin detecte automatiquement la langue (francais/anglais) et s'adapte.
