@@ -26,7 +26,7 @@ if [ -f "$CONFIG_FILE" ]; then
         message="[Data Analyst] Config loaded"
         [ -n "$env_name" ] && message="$message - Environment: $env_name"
         [ -n "$sql_dialect" ] && message="$message - SQL: $sql_dialect"
-        message="$message. Use /data-analyst:resume to see full context."
+        message="$message."
     fi
 fi
 
@@ -37,7 +37,7 @@ if [ -f "$SESSION_LOG" ]; then
         if [ -n "$message" ]; then
             message="$message Previous session: $last_session."
         else
-            message="[Data Analyst] Previous session found: $last_session. Use /data-analyst:resume to continue."
+            message="[Data Analyst] Previous session found: $last_session."
         fi
     fi
 fi

@@ -2,7 +2,7 @@
 description: "Start brainstorming phase - understand needs, explore data, choose approach before any analysis work"
 ---
 
-Invoke the data-analyst:data-brainstorming skill and follow it exactly.
+Invoke the data-analyst:data-workflow skill (Phase 1: Brainstorm) and follow it exactly.
 
 Phase collaborative pour comprendre les besoins avant toute analyse.
 

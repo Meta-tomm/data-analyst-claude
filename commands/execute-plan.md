@@ -2,7 +2,7 @@
 description: "Execute the approved analysis plan task by task with validation checkpoints"
 ---
 
-Invoke the data-analyst:data-executing skill and follow it exactly.
+Invoke the data-analyst:data-workflow skill (Phase 3: Execute) and follow it exactly.
 
 Executer le plan approuve tache par tache.
 

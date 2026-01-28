@@ -1,5 +1,5 @@
 {
-  "description": "Data Analyst plugin hooks - auto-load config, validate workflow, suggest next steps",
+  "description": "Data Analyst plugin hooks - auto-load config on session start",
   "hooks": {
     "SessionStart": [
       {
@@ -9,30 +9,6 @@
             "type": "command",
             "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/session-start.sh",
             "timeout": 10
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Check if the user's prompt is about data analysis (analyzing data, creating queries, building dashboards, DAX formulas, Excel formulas, data cleaning, statistics, visualization, reports).\n\nIf it IS about data analysis AND:\n- No .claude/data-analyst.local.md config exists in the project\n- AND the user hasn't used /data-analyst:config or /data-analyst:brainstorm yet in this session\n\nThen return a systemMessage suggesting: 'Tip: Use /data-analyst:config to set up your environment (SQL dialect, tools) for better assistance, or /data-analyst:brainstorm to structure your analysis.'\n\nIf config exists OR prompt is not about data analysis OR user already used the workflow commands, return nothing.\n\nBe helpful, not annoying - only suggest once per session type of work.",
-            "timeout": 15
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "matcher": "*",
-        "hooks": [
-          {
-            "type": "prompt",
-            "prompt": "Check if during this session:\n1. Data analysis work was completed (scripts created, queries written, formulas generated)\n2. AND no /data-analyst:export was used\n3. AND outputs exist in ./outputs/ or ./scripts/\n\nIf all true, suggest in systemMessage: 'Analysis complete. Use /data-analyst:export to generate offline cheatsheets, or /data-analyst:resume next session to continue.'\n\nIf analysis is ongoing or export was already done, approve without message.\n\nReturn {\"decision\": \"approve\"} with optional systemMessage.",
-            "timeout": 15
           }
         ]
       }

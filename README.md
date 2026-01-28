@@ -1,6 +1,6 @@
-# Data Analyst Plugin
+# Data Analyst Plugin v2.0
 
-Assistant expert Data Analyst avec workflow structure pour Python, SQL, Power BI, Excel.
+Assistant expert Data Analyst pour Python, SQL, Power BI, Excel et plus.
 
 ## Installation
 
@@ -8,377 +8,122 @@ Assistant expert Data Analyst avec workflow structure pour Python, SQL, Power BI
 /plugin marketplace add Meta-tomm/data-analyst-claude
 ```
 
----
-
-## Toutes les Commandes
-
-### Workflow Analyse (brainstorm → plan → execute)
-
-| Commande | Quand l'utiliser |
-|----------|------------------|
-| `/data-analyst:brainstorm` | **Avant toute analyse.** Comprendre le besoin, explorer les donnees, choisir l'approche. |
-| `/data-analyst:write-plan` | **Apres brainstorm.** Creer le plan detaille avec taches bite-sized. |
-| `/data-analyst:execute-plan` | **Apres plan valide.** Executer tache par tache avec checkpoints. |
-
-### Onboarding (nouveau dans une entreprise)
-
-| Commande | Quand l'utiliser |
-|----------|------------------|
-| `/data-analyst:onboard` | **Premier jour.** Workflow structure 2-4 semaines pour prendre ses marques. |
-| `/data-analyst:discover` | **Explorer un nouveau systeme.** Mapper schemas, tables, relations. |
-| `/data-analyst:document` | **Documenter ses decouvertes.** Data dictionaries, guides domaine, glossaire. |
-| `/data-analyst:lineage` | **Comprendre un flux.** Tracer d'ou vient une donnee, ou elle va. |
-
-### Gestion de Session
-
-| Commande | Quand l'utiliser |
-|----------|------------------|
-| `/data-analyst:config` | **Premiere utilisation.** Configurer environnement (SQL dialect, systemes, contacts). |
-| `/data-analyst:resume` | **Debut de session.** Restaurer le contexte de la session precedente. |
-| `/data-analyst:import` | **Doc existante.** Importer Confluence/Notion/Slack, Claude structure. |
-| `/data-analyst:export` | **Travail offline.** Generer cheatsheets SQL, DAX, domaines. |
-| `/data-analyst:describe` | **Donnees sensibles.** Decrire data sans exposer les vraies valeurs. |
-
-### Commandes Directes
-
-| Commande | Quand l'utiliser |
-|----------|------------------|
-| `/data-analyst:analyze` | Analyse exploratoire (declenche brainstorm si contexte manque) |
-| `/data-analyst:clean` | Nettoyage de donnees |
-| `/data-analyst:sql` | Generation/optimisation SQL |
-| `/data-analyst:viz` | Visualisations |
-| `/data-analyst:report` | Generation de rapports |
-| `/data-analyst:transform` | Pipelines ETL |
-| `/data-analyst:stats` | Tests statistiques |
-| `/data-analyst:powerbi` | Formules DAX pour Power BI |
-| `/data-analyst:quick` | Reference rapide (sans workflow) |
-| `/data-analyst:init` | Initialiser structure projet |
-
----
-
-## Workflows Recommandes
-
-### Arrivee dans une nouvelle entreprise
-
-```
-Jour 1:
-/data-analyst:config          ← Configurer SQL dialect, outils
-/data-analyst:onboard         ← Demarrer workflow onboarding
-
-Jour 2-10:
-/data-analyst:discover        ← Explorer chaque systeme
-/data-analyst:import          ← Importer doc existante (Confluence, etc.)
-
-En continu:
-/data-analyst:document        ← Documenter au fur et a mesure
-/data-analyst:lineage         ← Quand besoin de tracer un flux
-
-Entre sessions:
-/data-analyst:resume          ← Reprendre ou on en etait
-/data-analyst:export sql      ← Avoir une ref offline
-```
-
-### Projet d'analyse standard
-
-```
-/data-analyst:brainstorm      ← Comprendre le besoin
-      ↓
-/data-analyst:write-plan      ← Creer le plan
-      ↓
-/data-analyst:execute-plan    ← Executer avec checkpoints
-```
-
-### Question rapide (pas de workflow)
-
-```
-/data-analyst:quick "comment faire un SUMIFS avec plusieurs criteres"
+Alternative:
+```bash
+git clone https://github.com/Meta-tomm/data-analyst-claude.git ~/.claude/plugins/data-analyst
 ```
 
 ---
 
-## Comment les Skills se Chainent
+## Commandes
+
+### Workflow Analyse (brainstorm -> plan -> execute)
+
+| Commande | Usage |
+|----------|-------|
+| `/data-analyst:brainstorm` | Comprendre le besoin, explorer les donnees, choisir l'approche |
+| `/data-analyst:write-plan` | Creer le plan detaille avec taches et validations |
+| `/data-analyst:execute-plan` | Executer tache par tache avec checkpoints |
+
+### Langages & Outils
+
+| Commande | Usage |
+|----------|-------|
+| `/data-analyst:python` | Scripts Python, pandas, numpy, visualisation |
+| `/data-analyst:sql` | Generation/optimisation SQL multi-dialect |
+| `/data-analyst:powerbi` | Formules DAX, modelisation Power BI |
+| `/data-analyst:excel` | Formules Excel, Power Query, VBA |
+
+### Qualite & Architecture
+
+| Commande | Usage |
+|----------|-------|
+| `/data-analyst:code-review` | Review code : qualite, performance, securite |
+| `/data-analyst:architecture` | Analyser pipelines ETL, architecture data |
+
+---
+
+## Skills
+
+Le plugin inclut 11 skills activees automatiquement selon le contexte.
+
+### Workflow
+
+| Skill | Role |
+|-------|------|
+| `data-workflow` | Workflow 3 phases : brainstorm, plan, execute |
+| `data-environment` | Onboarding, decouverte schemas, config, lineage |
+| `data-docs` | Documentation, export offline, import docs externes |
+
+### Langages
+
+| Skill | Couverture |
+|-------|------------|
+| `lang-python` | pandas, numpy, scipy, matplotlib, seaborn, polars |
+| `lang-sql` | PostgreSQL, MySQL, SQLite, T-SQL, Snowflake |
+| `lang-powerbi` | DAX, star schema, time intelligence |
+| `lang-excel` | Formules, Power Query M, VBA, pivot tables |
+| `lang-typescript` | Types stricts, generics, Zod, async |
+| `lang-javascript` | ES2024+, patterns fonctionnels |
+| `lang-node` | Express/Fastify, streams, workers |
+| `lang-react` | Hooks, state management, Server Components |
+
+---
+
+## Workflow Recommande
 
 ```
-                    ┌─────────────────────────────────────┐
-                    │         ONBOARDING FLOW             │
-                    └─────────────────────────────────────┘
-                                    │
-                    ┌───────────────┼───────────────┐
-                    ↓               ↓               ↓
-               [config]       [discover]      [import]
-                    │               │               │
-                    └───────────────┼───────────────┘
-                                    ↓
-                             [document]
-                                    │
-                    ┌───────────────┼───────────────┐
-                    ↓               ↓               ↓
-              [lineage]       [export]        [resume]
-
-
-                    ┌─────────────────────────────────────┐
-                    │          ANALYSIS FLOW              │
-                    └─────────────────────────────────────┘
-                                    │
-                    ┌───────────────┼───────────────┐
-                    ↓               ↓               ↓
-             [describe]     [brainstorm]     [config]
-                                    │
-                                    ↓
-                            [write-plan]
-                                    │
-                                    ↓
-                           [execute-plan]
-                                    │
-                                    ↓
-                             [export]
+/data-analyst:brainstorm      <- Comprendre le besoin
+      |
+/data-analyst:write-plan      <- Planifier
+      |
+/data-analyst:execute-plan    <- Executer avec validation
 ```
+
+Pour une question rapide, utiliser directement la commande appropriee :
+
+```
+/data-analyst:sql "optimise cette requete avec des CTEs"
+/data-analyst:python "analyse exploratoire de ce CSV"
+/data-analyst:powerbi "mesure YTD avec filtre region"
+```
+
+---
+
+## Configuration (optionnel)
+
+Creer `.claude/data-analyst.local.md` dans le projet pour persister la config :
+
+```yaml
+---
+environment:
+  name: "Mon projet"
+  sql_dialect: "postgresql"
+---
+```
+
+Le plugin charge automatiquement ce fichier au demarrage de session.
 
 ---
 
 ## Livrables Supportes
 
-### Python
-- Scripts `.py` executables dans `./scripts/`
-
-### Power BI (DAX)
-- Fichiers `.md` avec formules a copier
-- Instructions pour chaque mesure
-- Dans `./outputs/dax-formulas.md`
-
-### Excel
-- Fichiers `.md` avec formules et placement
-- Dans `./outputs/excel-formulas.md`
-
-### SQL
-- Fichiers `.sql` commentes
-- Support PostgreSQL, MySQL, Snowflake, BigQuery, SQLite
-- Dans `./scripts/queries.sql`
-
-### Rapports
-- Fichiers `.md` structures
-- Adaptes a l'audience (tech/business/executive)
-- Dans `./outputs/report.md`
-
----
-
-## Structure des Fichiers Crees
-
-```
-projet/
-├── data/                        # Donnees brutes
-├── outputs/                     # Resultats, formules
-├── scripts/                     # Python, SQL
-├── exports/                     # Cheatsheets offline
-├── docs/
-│   ├── plans/                   # Plans d'analyse
-│   ├── discovery/               # Schemas decouverts
-│   ├── catalog/                 # Data dictionaries
-│   │   ├── tables/
-│   │   ├── domains/
-│   │   ├── glossary.md
-│   │   └── contacts.md
-│   ├── lineage/                 # Flux documentes
-│   ├── onboarding/              # Progression onboarding
-│   └── data-descriptions/       # Descriptions anonymisees
-└── .claude/
-    ├── data-analyst.local.md    # Config environnement
-    └── session-log.md           # Historique sessions
-```
-
----
-
-## Installation Alternative
-
-```bash
-git clone https://github.com/Meta-tomm/data-analyst-claude.git ~/.claude/plugins/data-analyst
-```
-
-**Mise a jour**: `cd ~/.claude/plugins/data-analyst && git pull`
-
-**Desinstallation**: `/plugin uninstall data-analyst`
-
----
-
-## MCP Server - Connexion Base de Donnees
-
-Le plugin inclut un serveur MCP pour se connecter directement aux bases de donnees.
-
-### Installation des dependances
-
-```bash
-# Dans le dossier du plugin
-pip install -r mcp-server/requirements.txt
-
-# Ou via le script
-bash mcp-server/install.sh
-```
-
-### Configuration
-
-**Option 1: DATABASE_URL (recommande)**
-
-```bash
-# PostgreSQL
-export DATABASE_URL='postgresql://user:password@localhost:5432/mydb'
-
-# MySQL
-export DATABASE_URL='mysql://user:password@localhost:3306/mydb'
-```
-
-**Option 2: Variables separees**
-
-```bash
-export DB_TYPE=postgresql  # ou mysql
-export DB_HOST=localhost
-export DB_PORT=5432
-export DB_NAME=mydb
-export DB_USER=user
-export DB_PASSWORD=password
-```
-
-### Outils MCP disponibles
-
-| Outil | Description |
-|-------|-------------|
-| `db_connect` | Tester la connexion a la base |
-| `db_tables` | Lister toutes les tables |
-| `db_schema` | Schema d'une table (colonnes, types) |
-| `db_query` | Executer une requete SELECT (read-only) |
-| `db_profile` | Profiler une table (stats, nulls, distinct) |
-
-### Utilisation
-
-Une fois configure, Claude peut directement:
-- Explorer vos schemas
-- Executer des requetes SELECT
-- Profiler vos tables
-- Tout ca sans quitter la conversation
-
-```
-User: "Montre moi les tables de ma base"
-Claude: [utilise db_tables automatiquement]
-```
-
-### Securite
-
-- **Read-only**: Seules les requetes SELECT sont autorisees
-- **Limite 100 rows**: Les resultats sont limites pour eviter les surcharges
-- **Pas de credentials en dur**: Tout passe par variables d'environnement
-
----
-
-## MCP Server - Power BI
-
-Le plugin supporte l'integration avec Power BI via le serveur MCP [sulaiman013/powerbi-mcp](https://github.com/sulaiman013/powerbi-mcp).
-
-### Installation
-
-```bash
-# Cloner le repo Power BI MCP
-git clone https://github.com/sulaiman013/powerbi-mcp.git ~/powerbi-mcp
-
-# Installer les dependances
-cd ~/powerbi-mcp
-pip install -r requirements.txt
-```
-
-### Configuration
-
-```bash
-# Chemin vers le serveur MCP
-export POWERBI_MCP_PATH="$HOME/powerbi-mcp"
-
-# Azure AD App Registration (pour Power BI Service)
-export POWERBI_TENANT_ID='your-tenant-id'
-export POWERBI_CLIENT_ID='your-client-id'
-export POWERBI_CLIENT_SECRET='your-client-secret'
-```
-
-**Note**: Pour Power BI Desktop uniquement, les credentials Azure ne sont pas necessaires.
-
-### Outils MCP disponibles (34 outils)
-
-#### Power BI Desktop (local)
-
-| Outil | Description |
-|-------|-------------|
-| `list_open_reports` | Lister les rapports ouverts |
-| `get_report_info` | Info detaillee sur un rapport |
-| `list_tables` | Lister les tables du modele |
-| `get_table_data` | Voir les donnees d'une table |
-| `list_measures` | Lister toutes les mesures DAX |
-| `get_measure_details` | Details d'une mesure specifique |
-| `list_columns` | Colonnes d'une table |
-| `list_relationships` | Relations entre tables |
-| `evaluate_dax` | Executer une requete DAX |
-| `get_model_info` | Info sur le modele de donnees |
-
-#### Power BI Service (cloud)
-
-| Outil | Description |
-|-------|-------------|
-| `list_workspaces` | Lister les workspaces |
-| `get_workspace_details` | Details d'un workspace |
-| `list_datasets` | Datasets d'un workspace |
-| `get_dataset_info` | Info sur un dataset |
-| `list_reports` | Rapports d'un workspace |
-| `get_report_details` | Details d'un rapport |
-| `list_dashboards` | Dashboards d'un workspace |
-| `refresh_dataset` | Declencher un refresh |
-| `get_refresh_history` | Historique des refreshs |
-| `execute_dax_query` | Executer DAX sur le service |
-
-#### Securite & Admin
-
-| Outil | Description |
-|-------|-------------|
-| `list_workspace_users` | Utilisateurs d'un workspace |
-| `get_user_permissions` | Permissions d'un utilisateur |
-| `list_gateway_datasources` | Sources de donnees gateway |
-| `get_capacity_info` | Info sur la capacite |
-
-#### Diagnostics
-
-| Outil | Description |
-|-------|-------------|
-| `analyze_model` | Analyser le modele (taille, complexite) |
-| `check_best_practices` | Verifier les best practices |
-| `get_query_performance` | Performance des requetes |
-| `diagnose_refresh_errors` | Diagnostiquer erreurs de refresh |
-
-### Utilisation
-
-Une fois configure, Claude peut directement:
-- Lister et explorer vos rapports Power BI
-- Executer des requetes DAX
-- Analyser les modeles de donnees
-- Verifier les best practices
-- Gerer les refreshs de datasets
-- Auditer les permissions
-
-```
-User: "Liste les mesures du rapport ouvert"
-Claude: [utilise list_measures automatiquement]
-
-User: "Calcule le total des ventes par region"
-Claude: [utilise evaluate_dax avec la requete appropriee]
-```
-
-### Azure AD App Registration
-
-Pour utiliser les outils Power BI Service:
-
-1. Aller sur [Azure Portal](https://portal.azure.com)
-2. Azure Active Directory > App registrations > New registration
-3. Nom: "Power BI MCP"
-4. Ajouter les permissions API:
-   - Power BI Service: Dataset.Read.All, Report.Read.All, Workspace.Read.All
-5. Creer un client secret
-6. Copier: Tenant ID, Client ID, Client Secret
+| Type | Format | Destination |
+|------|--------|-------------|
+| Python | `.py` | `./scripts/` |
+| SQL | `.sql` | `./scripts/` |
+| DAX | `.md` | `./outputs/` |
+| Excel | `.md` | `./outputs/` |
+| Rapports | `.md` | `./outputs/` |
 
 ---
 
 ## Bilingue
 
 Le plugin detecte automatiquement la langue (francais/anglais) et s'adapte.
+
+---
+
+## Licence
+
+MIT
